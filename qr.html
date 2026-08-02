@@ -32,16 +32,9 @@
 </head>
 <body>
   <div class="wrap">
-    <img class="qr-code" id="qr" alt="扫码查看桥梁信息">
+    <img class="qr-code" src="qr-bridge.png" alt="扫码查看桥梁信息">
     <div class="title">扫码查看桥梁信息</div>
     <div class="sub">泸州长江大桥</div>
   </div>
-
-  <script>
-    // 固定指向 OSS 上的 index.html
-    const url = encodeURIComponent('https://alljfxt.oss-cn-chengdu.aliyuncs.com/qiaoliang/index.html');
-    document.getElementById('qr').src =
-      'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' + url;
-  </script>
 </body>
 </html>
