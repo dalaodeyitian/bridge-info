@@ -234,7 +234,7 @@
     <div class="section-header"><div class="section-icon">🎬</div><h2 class="section-title">修缮纪实</h2></div>
     <div class="section-body">
       <div class="video-card">
-        <video controls preload="metadata" playsinline poster="images/1.jpg"><source src="video/cj.mp4" type="video/mp4"></video>
+        <video id="bridgeVideo" controls preload="none" playsinline poster="images/1.jpg"><source src="video/cj.mp4" type="video/mp4"></video>
         <div class="video-info">
           <h3 class="video-title">泸州长江大桥建设纪实</h3>
           <p class="video-desc">记录大桥从开工到通车的全过程，展现现代桥梁建设技术。</p>
@@ -312,14 +312,25 @@
       dotsWrap.appendChild(d);
     }
     const dots = dotsWrap.children;
-    // 延迟预加载第 2/3 张轮播图（不阻塞首屏第 1 张）
-    Array.from(slides).forEach((sl) => {
-      const img = sl.querySelector('img');
-      if (img && img.dataset.src) {
+    // 图片优先：Hero 轮播 3 张全部加载完成后，才开始视频预加载
+    const video = document.getElementById('bridgeVideo');
+    const allImgs = Array.from(slides).map(s => s.querySelector('img'));
+    let imgLoaded = 0;
+    function onImgReady() {
+      imgLoaded++;
+      if (imgLoaded >= allImgs.length && video && video.preload === 'none') {
+        video.preload = 'metadata';
+        video.load();
+      }
+    }
+    allImgs.forEach((img, i) => {
+      if (i === 0) { // 首屏第 1 张
+        if (img.complete) onImgReady(); else img.addEventListener('load', onImgReady, {once:true});
+      } else if (img.dataset.src) { // 第 2/3 张后台预加载，完成后计入
         const pre = new Image();
         pre.src = img.dataset.src;
-        pre.onload = () => { img.src = img.dataset.src; img.removeAttribute('data-src'); };
-        pre.onerror = () => { img.src = img.dataset.src; };
+        pre.onload = () => { img.src = img.dataset.src; img.removeAttribute('data-src'); onImgReady(); };
+        pre.onerror = () => { img.src = img.dataset.src; onImgReady(); };
       }
     });
     function go(i){ idx = (i + total) % total; slider.style.transform = 'translateX(-'+idx*100+'%)'; Array.from(dots).forEach((d,j)=>d.classList.toggle('on', j === idx)); }
