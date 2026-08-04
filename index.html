@@ -65,6 +65,13 @@
     #page3 .section-title { font-size: 17px; font-weight: 700; color: #1a1a2e; }
     #page3 .section-body { padding: 16px 20px 20px; }
 
+    /* 折叠面板（桥梁简介） */
+    #page3 .section.collapsible .section-header { cursor: pointer; user-select: none; }
+    #page3 .section.collapsible .section-body { max-height: 0; overflow: hidden; padding-top: 0; padding-bottom: 0; transition: max-height .45s ease, padding .45s ease; }
+    #page3 .section.collapsible.open .section-body { max-height: 600px; padding-top: 16px; padding-bottom: 20px; }
+    #page3 .section-arrow { margin-left: auto; font-size: 12px; color: #999; transition: transform .3s ease; }
+    #page3 .section.collapsible.open .section-arrow { transform: rotate(180deg); }
+
     #page3 .intro-text { font-size: 14px; line-height: 1.8; color: #444; margin-bottom: 12px; text-align: justify; }
     #page3 .intro-text:last-child { margin-bottom: 0; }
 
@@ -170,8 +177,8 @@
     <div class="info-item"><div class="info-icon">📐</div><div class="info-label">桥面宽度</div><div class="info-value">17米</div></div>
   </div>
 
-  <div class="section">
-    <div class="section-header"><div class="section-icon">📖</div><h2 class="section-title">桥梁简介</h2></div>
+  <div class="section collapsible" id="introSection">
+    <div class="section-header" onclick="toggleIntro()"><div class="section-icon">📖</div><h2 class="section-title">桥梁简介</h2><span class="section-arrow">▾</span></div>
     <div class="section-body">
       <p class="intro-text">泸州长江大桥全长1252.5米，桥面宽17米。主桥采用预应力混凝土T型刚构与混凝土挂梁结构，主跨170米。2020年维修时将混凝土挂梁更换为钢挂梁，建成时为全国长江上最长的公路大桥。</p>
       <p class="intro-text">大桥于1977年开工建设，1982年正式通车运营，建设单位为泸州长江大桥指挥部，设计单位为四川省交通厅勘察设计院，施工单位为四川省交通厅第一工程处。</p>
@@ -261,7 +268,7 @@
   </div>
 
   <div class="footer3">
-    <div class="footer-logo">🏛️ 泸州市龙马潭区桥梁设施管理中心</div>
+    <div class="footer-logo">🏛️ 泸州市公路局</div>
     <p class="footer-text">推进桥梁信息公开 · 共建安全出行环境</p>
   </div>
 </div>
@@ -285,6 +292,11 @@
       openLightbox(img.src, '');
     });
   });
+
+  // 桥梁简介折叠展开
+  function toggleIntro() {
+    document.getElementById('introSection').classList.toggle('open');
+  }
 
   // Hero 轮播
   (function(){
