@@ -158,9 +158,9 @@
 <div class="page" id="page3">
   <div class="hero-section">
     <div class="hero-slider" id="heroSlider">
-      <div class="hero-slide"><img src="images/1.jpg" alt="泸州长江大桥"></div>
-      <div class="hero-slide"><img src="images/2.jpg" alt="泸州长江大桥"></div>
-      <div class="hero-slide"><img src="images/3.jpg" alt="泸州长江大桥"></div>
+      <div class="hero-slide"><img src="https://cdn.jsdelivr.net/gh/dalaodeyitian/bridge-info@main/images/1.jpg" alt="泸州长江大桥" onerror="this.onerror=null;this.src='images/1.jpg'"></div>
+      <div class="hero-slide"><img data-src="https://cdn.jsdelivr.net/gh/dalaodeyitian/bridge-info@main/images/2.jpg" alt="泸州长江大桥" onerror="this.onerror=null;this.src='images/2.jpg'"></div>
+      <div class="hero-slide"><img data-src="https://cdn.jsdelivr.net/gh/dalaodeyitian/bridge-info@main/images/3.jpg" alt="泸州长江大桥" onerror="this.onerror=null;this.src='images/3.jpg'"></div>
     </div>
     <div class="hero-dots" id="heroDots"></div>
     <div class="hero-overlay">
@@ -212,7 +212,7 @@
           <div class="timeline-year">1977年</div>
           <div class="timeline-title">开工建设</div>
           <div class="history-gallery">
-            <img src="images/8.jpg" alt="建设现场" onclick="openLightbox('images/8.jpg','开工建设')">
+            <img src="https://cdn.jsdelivr.net/gh/dalaodeyitian/bridge-info@main/images/8.jpg" alt="建设现场" loading="lazy" onclick="openLightbox(this.src,'开工建设')" onerror="this.onerror=null;this.src='images/8.jpg'">
           </div>
           <p class="timeline-desc">泸州长江大桥正式开工建设，拉开泸州跨江交通新篇章。</p>
         </div>
@@ -221,8 +221,8 @@
           <div class="timeline-year">1982年</div>
           <div class="timeline-title">建成通车</div>
           <div class="history-gallery">
-            <img src="images/9.jpg" alt="建成通车" onclick="openLightbox('images/9.jpg','建成通车')">
-            <img src="images/7.jpg" alt="桥梁全景" onclick="openLightbox('images/7.jpg','桥梁全景')">
+            <img src="https://cdn.jsdelivr.net/gh/dalaodeyitian/bridge-info@main/images/9.jpg" alt="建成通车" loading="lazy" onclick="openLightbox(this.src,'建成通车')" onerror="this.onerror=null;this.src='images/9.jpg'">
+            <img src="https://cdn.jsdelivr.net/gh/dalaodeyitian/bridge-info@main/images/7.jpg" alt="桥梁全景" loading="lazy" onclick="openLightbox(this.src,'桥梁全景')" onerror="this.onerror=null;this.src='images/7.jpg'">
           </div>
           <p class="timeline-desc">大桥正式建成通车，全长1252.5米，建成时为全国长江上最长的公路大桥。</p>
         </div>
@@ -234,7 +234,10 @@
     <div class="section-header"><div class="section-icon">🎬</div><h2 class="section-title">修缮纪实</h2></div>
     <div class="section-body">
       <div class="video-card">
-        <video controls preload="metadata" playsinline poster="images/1.jpg"><source src="video/cj.mp4" type="video/mp4"></video>
+        <video controls preload="metadata" playsinline poster="https://cdn.jsdelivr.net/gh/dalaodeyitian/bridge-info@main/images/1.jpg">
+          <source src="https://cdn.jsdelivr.net/gh/dalaodeyitian/bridge-info@main/video/cj.mp4" type="video/mp4">
+          <source src="video/cj.mp4" type="video/mp4">
+        </video>
         <div class="video-info">
           <h3 class="video-title">泸州长江大桥建设纪实</h3>
           <p class="video-desc">记录大桥从开工到通车的全过程，展现现代桥梁建设技术。</p>
@@ -312,6 +315,16 @@
       dotsWrap.appendChild(d);
     }
     const dots = dotsWrap.children;
+    // 延迟预加载第 2/3 张轮播图（不阻塞首屏第 1 张）
+    Array.from(slides).forEach((sl) => {
+      const img = sl.querySelector('img');
+      if (img && img.dataset.src) {
+        const pre = new Image();
+        pre.src = img.dataset.src;
+        pre.onload = () => { img.src = img.dataset.src; img.removeAttribute('data-src'); };
+        pre.onerror = () => { img.src = img.dataset.src; };
+      }
+    });
     function go(i){ idx = (i + total) % total; slider.style.transform = 'translateX(-'+idx*100+'%)'; Array.from(dots).forEach((d,j)=>d.classList.toggle('on', j === idx)); }
     function next(){ go(idx + 1); }
     function start(){ timer = setInterval(next, 4000); }
