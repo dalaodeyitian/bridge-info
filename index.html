@@ -102,10 +102,11 @@
     #page3 .history-gallery img { width: 100%; height: 110px; object-fit: cover; border-radius: 8px; display: block; cursor: pointer; }
     #page3 .timeline-desc { font-size: 13px; color: #666; line-height: 1.6; }
 
-    #page3 .param-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    #page3 .param-item { background: #f8f9fa; padding: 12px 14px; border-radius: 10px; }
-    #page3 .param-label { display: block; font-size: 11px; color: #999; margin-bottom: 4px; }
-    #page3 .param-value { font-size: 14px; font-weight: 600; color: #1a1a2e; }
+    #page3 .param-list { display: flex; flex-direction: column; }
+    #page3 .param-row { display: flex; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    #page3 .param-row:last-child { border-bottom: none; }
+    #page3 .param-row .param-label { flex-shrink: 0; width: 108px; font-size: 12px; color: #888; line-height: 1.6; margin-right: 12px; }
+    #page3 .param-row .param-value { flex: 1; font-size: 13px; color: #1a1a2e; line-height: 1.7; text-align: left; }
 
     #page3 .location-info { display: flex; flex-direction: column; gap: 10px; }
     #page3 .loc-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #444; }
@@ -177,32 +178,28 @@
   <div class="quick-info">
     <div class="info-item"><div class="info-icon">📅</div><div class="info-label">通车时间</div><div class="info-value">1982年</div></div>
     <div class="info-item"><div class="info-icon">📏</div><div class="info-label">桥梁全长</div><div class="info-value">1252.5米</div></div>
-    <div class="info-item"><div class="info-icon">🌉</div><div class="info-label">主跨</div><div class="info-value">170米</div></div>
+    <div class="info-item"><div class="info-icon">🌉</div><div class="info-label">主跨</div><div class="info-value">3×170米</div></div>
     <div class="info-item"><div class="info-icon">📐</div><div class="info-label">桥面宽度</div><div class="info-value">17米</div></div>
   </div>
 
   <div class="section collapsible" id="introSection">
     <div class="section-header" onclick="toggleIntro()"><div class="section-icon">📖</div><h2 class="section-title">桥梁简介</h2><span class="section-arrow">▾</span></div>
     <div class="section-body">
-      <p class="intro-text">泸州长江大桥全长1252.5米，桥面宽17米。主桥采用预应力混凝土T型刚构与混凝土挂梁结构，主跨170米。2020年维修时将混凝土挂梁更换为钢挂梁，建成时为全国长江上最长的公路大桥。</p>
-      <p class="intro-text">大桥于1977年开工建设，1982年正式通车运营，建设单位为泸州长江大桥指挥部，设计单位为四川省交通厅勘察设计院，施工单位为四川省交通厅第一工程处。</p>
+      <p class="intro-text">泸州长江大桥位于泸州市G246线上，桥梁中心桩号K546+887。该桥跨越长江，于1982年底建成通车。桥梁全长1252.5m，桥面总宽16.5m，行车道宽12.0m。</p>
+      <p class="intro-text">桥跨布置为：27.6m（预应力混凝土简支T梁）+20.0m（钢筋混凝土T梁）+1×105.0m+3×170.0m+1×105.0m（预应力混凝土T型钢构+预应力混凝土简支挂梁）+6×70.0m（钢筋混凝土箱型拱桥）+1×20.0m石拱桥。桥面采用双向4车道，桥面铺装层采用沥青混凝土铺装，横向布置为：2.25m（人行道+栏杆）+12.0m（行车道）+2.25m（人行道+栏杆）。</p>
     </div>
   </div>
 
   <div class="section">
     <div class="section-header"><div class="section-icon">📋</div><h2 class="section-title">技术参数</h2></div>
     <div class="section-body">
-      <div class="param-grid">
-        <div class="param-item"><span class="param-label">桥梁名称</span><span class="param-value">泸州长江大桥</span></div>
-        <div class="param-item"><span class="param-label">所在位置</span><span class="param-value">泸州市江阳区</span></div>
-        <div class="param-item"><span class="param-label">桥梁全长</span><span class="param-value">1252.5米</span></div>
-        <div class="param-item"><span class="param-label">主跨跨径</span><span class="param-value">170米</span></div>
-        <div class="param-item"><span class="param-label">桥面宽度</span><span class="param-value">17米</span></div>
-        <div class="param-item"><span class="param-label">开工时间</span><span class="param-value">1977年</span></div>
-        <div class="param-item"><span class="param-label">通车时间</span><span class="param-value">1982年</span></div>
-        <div class="param-item"><span class="param-label">设计单位</span><span class="param-value">四川省交通厅勘察设计院</span></div>
-        <div class="param-item"><span class="param-label">施工单位</span><span class="param-value">四川省交通厅第一工程处</span></div>
-        <div class="param-item"><span class="param-label">建设单位</span><span class="param-value">泸州长江大桥指挥部</span></div>
+      <div class="param-list">
+        <div class="param-row"><span class="param-label">北引桥上部结构</span><span class="param-value">1×27.6m（预应力混凝土简支T梁）+1×20.0m（钢混组合梁），支座采用板式橡胶支座</span></div>
+        <div class="param-row"><span class="param-label">主桥上部结构</span><span class="param-value">1×105.0m+3×170.0m+1×105.0m（预应力混凝土T型刚构+钢板组合挂梁），支座采用板式橡胶支座</span></div>
+        <div class="param-row"><span class="param-label">南引桥上部结构</span><span class="param-value">6×70.0m（钢筋混凝土箱型板拱）+1×15.0m（实腹式圬工拱桥）</span></div>
+        <div class="param-row"><span class="param-label">南北引桥下部结构</span><span class="param-value">桥台采用重力式、薄壁桥台，桥墩采用重力式石砌桥墩</span></div>
+        <div class="param-row"><span class="param-label">主桥下部结构</span><span class="param-value">桥墩采用钢筋混凝土桥墩</span></div>
+        <div class="param-row"><span class="param-label">桥面横向布置</span><span class="param-value">2m（人行道及栏杆）+0.25m（路缘）+2×3m（车行道）+0.5m（双黄线）+2×3m（车行道）+0.25m（路缘）+2m（人行道及栏杆）</span></div>
       </div>
     </div>
   </div>
