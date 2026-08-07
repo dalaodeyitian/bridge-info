@@ -65,13 +65,6 @@
     #page3 .section-title { font-size: 17px; font-weight: 700; color: #1a1a2e; }
     #page3 .section-body { padding: 16px 20px 20px; }
 
-    /* 折叠面板（桥梁简介） */
-    #page3 .section.collapsible .section-header { cursor: pointer; user-select: none; }
-    #page3 .section.collapsible .section-body { max-height: 0; overflow: hidden; padding-top: 0; padding-bottom: 0; transition: max-height .45s ease, padding .45s ease; }
-    #page3 .section.collapsible.open .section-body { max-height: 600px; padding-top: 16px; padding-bottom: 20px; }
-    #page3 .section-arrow { margin-left: auto; font-size: 12px; color: #999; transition: transform .3s ease; }
-    #page3 .section.collapsible.open .section-arrow { transform: rotate(180deg); }
-
     #page3 .intro-text { font-size: 14px; line-height: 1.8; color: #444; margin-bottom: 12px; text-align: justify; }
     #page3 .intro-text:last-child { margin-bottom: 0; }
 
@@ -101,6 +94,32 @@
     #page3 .history-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px; }
     #page3 .history-gallery img { width: 100%; height: 110px; object-fit: cover; border-radius: 8px; display: block; cursor: pointer; }
     #page3 .timeline-desc { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* 图库按钮 */
+    #page3 .gallery-btn {
+      margin-top: 10px; padding: 8px 16px; border: none; border-radius: 18px;
+      background: linear-gradient(135deg, #1a56db, #4e83fd); color: #fff;
+      font-size: 13px; cursor: pointer; box-shadow: 0 2px 8px rgba(26,86,219,.3);
+    }
+    /* 全屏滑动画廊 */
+    .gallery-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.94); z-index: 9998;
+      display: none; flex-direction: column;
+    }
+    .gallery-overlay.on { display: flex; }
+    .gallery-top { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; color: #fff; }
+    .gallery-count { font-size: 14px; color: rgba(255,255,255,.8); }
+    .gallery-close {
+      width: 36px; height: 36px; border-radius: 50%; border: none;
+      background: rgba(255,255,255,.15); color: #fff; font-size: 16px; cursor: pointer;
+    }
+    .gallery-track {
+      flex: 1; display: flex; align-items: center; overflow-x: auto;
+      gap: 12px; padding: 10px 16px 24px; -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
+    .gallery-track::-webkit-scrollbar { display: none; }
+    .gallery-track img { height: 58vh; max-width: 92vw; object-fit: contain; border-radius: 8px; scroll-snap-align: center; cursor: zoom-in; }
 
     #page3 .param-list { display: flex; flex-direction: column; }
     #page3 .param-row { display: flex; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
@@ -182,8 +201,8 @@
     <div class="info-item"><div class="info-icon">📐</div><div class="info-label">桥面宽度</div><div class="info-value">17米</div></div>
   </div>
 
-  <div class="section collapsible" id="introSection">
-    <div class="section-header" onclick="toggleIntro()"><div class="section-icon">📖</div><h2 class="section-title">桥梁简介</h2><span class="section-arrow">▾</span></div>
+  <div class="section">
+    <div class="section-header"><div class="section-icon">📖</div><h2 class="section-title">桥梁简介</h2></div>
     <div class="section-body">
       <p class="intro-text">泸州长江大桥位于泸州市G246线上，桥梁中心桩号K546+887。该桥跨越长江，于1982年底建成通车。桥梁全长1252.5m，桥面总宽16.5m，行车道宽12.0m。</p>
       <p class="intro-text">桥跨布置为：27.6m（预应力混凝土简支T梁）+20.0m（钢筋混凝土T梁）+1×105.0m+3×170.0m+1×105.0m（预应力混凝土T型钢构+预应力混凝土简支挂梁）+6×70.0m（钢筋混凝土箱型拱桥）+1×20.0m石拱桥。桥面采用双向4车道，桥面铺装层采用沥青混凝土铺装，横向布置为：2.25m（人行道+栏杆）+12.0m（行车道）+2.25m（人行道+栏杆）。</p>
@@ -191,7 +210,7 @@
   </div>
 
   <div class="section">
-    <div class="section-header"><div class="section-icon">📋</div><h2 class="section-title">技术参数</h2></div>
+    <div class="section-header"><div class="section-icon">📋</div><h2 class="section-title">桥梁信息</h2></div>
     <div class="section-body">
       <div class="param-list">
         <div class="param-row"><span class="param-label">北引桥上部结构</span><span class="param-value">1×27.6m（预应力混凝土简支T梁）+1×20.0m（钢混组合梁），支座采用板式橡胶支座</span></div>
@@ -212,9 +231,6 @@
           <div class="timeline-dot"></div>
           <div class="timeline-year">1977年</div>
           <div class="timeline-title">开工建设</div>
-          <div class="history-gallery">
-            <img src="images/8.jpg" alt="建设现场" loading="lazy" onclick="openLightbox(this.src,'开工建设')">
-          </div>
           <p class="timeline-desc">泸州长江大桥正式开工建设，拉开泸州跨江交通新篇章。</p>
         </div>
         <div class="timeline-item">
@@ -226,6 +242,17 @@
             <img src="images/7.jpg" alt="桥梁全景" loading="lazy" onclick="openLightbox(this.src,'桥梁全景')">
           </div>
           <p class="timeline-desc">大桥正式建成通车，全长1252.5米，建成时为全国长江上最长的公路大桥。</p>
+          <button class="gallery-btn" onclick="openGallery()">📁 查看图库</button>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2020年</div>
+          <div class="timeline-title">维修加固</div>
+          <div class="history-gallery">
+            <img src="images/8.jpg" alt="维修加固" loading="lazy" onclick="openLightbox(this.src,'维修加固')">
+          </div>
+          <p class="timeline-desc">主引桥的桥面宽度由原有的16.5m拓宽至17.0m，行车道净宽在原来12.0m基础上拓宽至13.0m。人行道净宽1.50m，临河侧人行栏杆带宽0.25m，靠车行道侧设防撞护栏，防撞护栏顶宽0.25m。主桥挂孔40m砼T梁，更换为钢板组合梁。设计荷载等级为公路—II级×0.75，人群3kN/㎡。</p>
+          <button class="gallery-btn" onclick="openGallery()">📁 查看图库</button>
         </div>
       </div>
     </div>
@@ -281,7 +308,30 @@
   <img id="lb-img" src="">
 </div>
 
+<!-- 全屏滑动画廊 -->
+<div class="gallery-overlay" id="galleryOv">
+  <div class="gallery-top">
+    <span class="gallery-count" id="galleryCount"></span>
+    <button class="gallery-close" onclick="closeGallery()">✕</button>
+  </div>
+  <div class="gallery-track" id="galleryTrack"></div>
+</div>
+
 <script>
+  // 全屏滑动画廊（汇集全部历史照片）
+  const ALL_GALLERY_IMGS = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg','images/5.jpg','images/6.jpg','images/7.jpg','images/8.jpg','images/9.jpg','images/10.jpg','images/11.jpg'];
+  function openGallery() {
+    const track = document.getElementById('galleryTrack');
+    track.innerHTML = ALL_GALLERY_IMGS.map(src => '<img src="' + src + '" alt="桥梁照片" onclick="openLightbox(this.src,\'\')">').join('');
+    document.getElementById('galleryCount').textContent = ALL_GALLERY_IMGS.length + ' 张照片';
+    document.getElementById('galleryOv').classList.add('on');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeGallery() {
+    document.getElementById('galleryOv').classList.remove('on');
+    document.body.style.overflow = '';
+  }
+
   // 图片放大（布局三）
   function openLightbox(src, cap) {
     document.getElementById('lb-img').src = src;
@@ -294,11 +344,6 @@
       openLightbox(img.src, '');
     });
   });
-
-  // 桥梁简介折叠展开
-  function toggleIntro() {
-    document.getElementById('introSection').classList.toggle('open');
-  }
 
   // Hero 轮播
   (function(){
